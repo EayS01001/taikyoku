@@ -1,6 +1,7 @@
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.SceneManagement;
 
 public class playerController : MonoBehaviour
 {
@@ -12,6 +13,8 @@ public class playerController : MonoBehaviour
 
     [SerializeField]
     private bool isGround = false;
+    [SerializeField]
+    private GameObject Bullet;
 
 
     // Start is called before the first frame update
@@ -31,9 +34,21 @@ public class playerController : MonoBehaviour
     {
         Move();
 
-        if(Input.GetKeyDown(KeyCode.W))
+        if(Input.GetKeyDown(KeyCode.W)&&transform.tag=="Player1")
         {
             Jump();
+        }
+        else if (Input.GetKeyDown(KeyCode.UpArrow) && transform.tag == "Player2")
+        {
+            Jump();
+        }
+        if (Input.GetKeyDown(KeyCode.S) && transform.tag == "Player1")
+        {
+            Attack();
+        }
+        else if (Input.GetKeyDown(KeyCode.DownArrow) && transform.tag == "Player2")
+        {
+            Attack();
         }
     }
     
@@ -42,7 +57,12 @@ public class playerController : MonoBehaviour
     /// </summary>
     private void Move()
     {
-        transform.position += new Vector3(Input.GetAxis("Horizontal") * Time.deltaTime * MoveSpeed, 0, 0);
+        if(transform.tag == "Player1")
+            transform.position += new Vector3(Input.GetAxis("Horizontal2") * Time.deltaTime * MoveSpeed, 0, 0);
+        if(transform.tag == "Player2")
+        {
+            transform.position += new Vector3(Input.GetAxis("Horizontal") * Time.deltaTime * MoveSpeed, 0, 0);
+        }
     }
 
     private void Jump()
@@ -65,6 +85,22 @@ public class playerController : MonoBehaviour
         if(collision.collider.tag == "Grounds")
         {
             isGround = false;
+        }
+    }
+    void Attack()
+    {
+        Instantiate(Bullet,transform.position, Quaternion.identity);
+    }
+
+    void OnBecameInvisible()
+    {
+        if(transform.tag == "Player2")
+        {
+            SceneManager.LoadScene("WhiteWin");
+        }
+        else if(transform.tag == "Player1")
+        {
+            SceneManager.LoadScene("BlackWin");
         }
     }
 }
