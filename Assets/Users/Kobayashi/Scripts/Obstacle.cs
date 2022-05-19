@@ -40,5 +40,8 @@ public class Obstacle : MonoBehaviour
             count -= 10;
         }
     }
+
+
+
     
 }
