@@ -15,6 +15,8 @@ public class playerController : MonoBehaviour
     private bool isGround = false;
     [SerializeField]
     private GameObject Bullet;
+    public int playerHp = 2;
+    public int playerAttack = 0;
 
 
     // Start is called before the first frame update

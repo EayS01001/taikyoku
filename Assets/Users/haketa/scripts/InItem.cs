@@ -5,38 +5,56 @@ using UnityEngine;
 public class InItem : MonoBehaviour
 {
     public float seconds = 5;
-    public GameObject AnyObject;
     public int playerhp;
-    TestPlayer script;
+    public int playerhp2;
+    public playerController script;
 
     // Start is called before the first frame update
     void Start()
     {
-        AnyObject = GameObject.Find("GameObject"); //Unityちゃんをオブジェクトの名前から取得して変数に格納する
-        script = AnyObject.GetComponent<TestPlayer>();
 
     }
 
     // Update is called once per frame
     void Update()
     {
-        if(Input.GetKeyDown(KeyCode.Space))
-        {
-            script.hp = playerhp;
-        }
     }
 
     private void OnTriggerEnter2D(Collider2D col)
     {
-        if (col.gameObject.CompareTag("Player"))
+        if (col.gameObject.CompareTag("Player1"))
         {
-            playerhp = script.hp;
-            //プレイヤーの体力を高くする
-            script.hp = 100;
-            //プレイヤーの攻撃を高くする
-            script.defense = 200;
-            Destroy(this.gameObject);
-
+            StartCoroutine("Player1Change");
         }
+        if (col.gameObject.CompareTag("Player2"))
+        {
+            StartCoroutine("Player2Change");
+        }
+    }
+
+    IEnumerator Player1Change()
+    {
+        playerhp = script.playerHp;
+        //プレイヤーの体力を高くする
+        script.playerHp = 100;
+        //プレイヤーの攻撃を高くする
+        script.playerAttack = 200;
+        yield return new WaitForSeconds(2);
+        Destroy(this.gameObject);
+        script.playerHp = playerhp;
+        script.playerAttack = 0;
+    }
+    IEnumerator Player2Change()
+    {
+
+        playerhp2 = script.playerHp;
+        //プレイヤーの体力を高くする
+        script.playerHp = 100;
+        //プレイヤーの攻撃を高くする
+        script.playerAttack = 200;
+        yield return new WaitForSeconds(2);
+        Destroy(this.gameObject);
+        script.playerHp = playerhp2;
+        script.playerAttack = 0;
     }
 }
