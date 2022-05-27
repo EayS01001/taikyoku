@@ -9,6 +9,8 @@ TagManager:
   - Enemy
   - Player1
   - Player2
+  - Item
+  - Del
   layers:
   - Default
   - TransparentFX

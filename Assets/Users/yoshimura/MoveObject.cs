@@ -7,6 +7,8 @@ public class MoveObject : MonoBehaviour
 {
     [SerializeField]
     private float MoveSpeed;
+    [SerializeField]
+    private int Damage = 1;
     
     // Start is called before the first frame update
     void Start()
@@ -24,9 +26,23 @@ public class MoveObject : MonoBehaviour
     //コライダー2dを持つオブジェクトと衝突したらログが出る
     void OnCollisionEnter2D(Collision2D collision)
     {
-        if (collision.gameObject.tag == "Player1")
+        if(collision.gameObject.tag=="Player1"||collision.gameObject.tag=="Player2")
         {
-            SceneManager.LoadScene("WhiteWin");
+            if(collision.gameObject.GetComponent<playerController>().SubHP(Damage) == true)
+            {
+                if(collision.gameObject.tag == "Player1")
+                {
+                    SceneManager.LoadScene("WhiteWin");
+                }
+                else if(collision.gameObject.tag == "Player2")
+                {
+                    SceneManager.LoadScene("BlackWin");
+                } 
+            }
+            else
+            {
+                Destroy(gameObject);
+            }
         }
     }
 }
